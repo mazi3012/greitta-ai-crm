@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --bg-main: #f4f9f6;
+    --bg-card: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --mint-primary: #059669;
+    --mint-soft: #ecfdf5;
+  }
+
+  .dark {
+    --bg-main: #061410;
+    --bg-card: #0c1e18;
+    --border-color: #1a3a30;
+    --text-primary: #f0fdf4;
+    --text-secondary: #94a3b8;
+    --mint-primary: #10b981;
+    --mint-soft: #064e3b;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Light Mint Card Styles */
+.mint-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px 0 rgba(16, 185, 129, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.mint-card:hover {
+  border-color: #a7f3d0;
+  box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.08);
+}
+
+.dark .mint-card:hover {
+  border-color: #047857;
+  box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.15);
+}
+
+/* Mint Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a7f3d0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
+/* Clean Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
