@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/check-lead.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/claim-lead.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "bot/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "tma/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/check-lead",
+      "dest": "api/check-lead.js"
+    },
+    {
+      "src": "/api/claim-lead",
+      "dest": "api/claim-lead.js"
+    },
+    {
+      "src": "/bot",
+      "dest": "bot/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "tma/$1"
+    }
+  ]
+}
