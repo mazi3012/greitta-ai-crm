@@ -29,6 +29,7 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // Read saved collapsed state on mount to prevent SSR mismatch
   useEffect(() => {
     setMounted(true);
     const savedCollapse = localStorage.getItem("greitta_nav_collapsed");
@@ -61,10 +62,12 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
     { id: 3, title: "Webhook Status 200 OK", time: "1 hour ago", desc: "Telegram listener active" },
   ];
 
+  // Only apply collapsed after client mount to avoid SSR hydration mismatch
   const isNavCollapsed = mounted && collapsed;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
+      {/* Mobile Drawer Backdrop */}
       {mobileOpen && (
         <div
           className="fixed inset-0 bg-slate-950/50 z-40 md:hidden backdrop-blur-xs"
@@ -72,17 +75,15 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
         />
       )}
 
-      {/* FULL HEIGHT LEFT SIDEBAR */}
+      {/* FULL HEIGHT LEFT SIDEBAR PANEL */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 flex flex-col justify-between transition-all duration-300 ease-in-out ${
           isNavCollapsed ? "w-64 md:w-20" : "w-64"
-        } ${
-          mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        }`}
+        } ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         <div className="flex flex-col h-full justify-between">
           <div>
-            {/* Sidebar Header */}
+            {/* Sidebar Header with Brand & Expand/Collapse Toggle */}
             <div className="p-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between min-h-[61px]">
               <div className="flex items-center space-x-3 overflow-hidden">
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-mint-500 to-emerald-600 text-white flex items-center justify-center font-black text-sm shadow-mint-sm shrink-0">
@@ -100,20 +101,20 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
                 )}
               </div>
 
-              {/* Desktop Collapse / Expand Toggle */}
+              {/* Desktop Collapse / Expand Toggle Button */}
               <button
                 onClick={toggleCollapse}
                 className="hidden md:flex p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-mint-50 dark:hover:bg-slate-800 transition-colors"
                 title={isNavCollapsed ? "Expand Navigation Panel" : "Collapse Navigation Panel"}
               >
                 {isNavCollapsed ? (
-                  <PanelLeftOpen size={18} className="text-mint-600" />
+                  <PanelLeftOpen size={18} className="text-mint-600 font-bold" />
                 ) : (
-                  <PanelLeftClose size={18} className="text-slate-500" />
+                  <PanelLeftClose size={18} className="text-slate-500 hover:text-mint-600" />
                 )}
               </button>
 
-              {/* Mobile Close Button */}
+              {/* Mobile Drawer Close Button */}
               <button
                 onClick={() => setMobileOpen(false)}
                 className="md:hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1"
@@ -122,7 +123,7 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
               </button>
             </div>
 
-            {/* Create Lead Button */}
+            {/* Quick Create Lead Button */}
             <div className="p-2.5">
               <button
                 onClick={onAddLeadClick || (() => router.push("/leads?action=new"))}
@@ -136,10 +137,10 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
               </button>
             </div>
 
-            {/* Main Nav */}
+            {/* Core Navigation Items */}
             <div className="px-2 py-2 space-y-1">
               {!isNavCollapsed && (
-                <div className="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                <div className="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                   Pipeline Management
                 </div>
               )}
@@ -160,7 +161,10 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
                       title={isNavCollapsed ? item.name : undefined}
                     >
                       <div className="flex items-center space-x-3">
-                        <Icon size={18} className={isActive ? "text-mint-600" : "text-slate-400"} />
+                        <Icon
+                          size={18}
+                          className={isActive ? "text-mint-600 dark:text-mint-400" : "text-slate-400"}
+                        />
                         {!isNavCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
                       </div>
                       {!isNavCollapsed && item.count && (
@@ -174,10 +178,10 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
               })}
             </div>
 
-            {/* Secondary Nav */}
+            {/* System Navigation Items */}
             <div className="px-2 py-2 space-y-1 border-t border-slate-100 dark:border-slate-800/80 mt-2">
               {!isNavCollapsed && (
-                <div className="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                <div className="px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                   System & Settings
                 </div>
               )}
@@ -198,7 +202,10 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
                       title={isNavCollapsed ? item.name : undefined}
                     >
                       <div className="flex items-center space-x-3">
-                        <Icon size={18} className={isActive ? "text-mint-600" : "text-slate-400"} />
+                        <Icon
+                          size={18}
+                          className={isActive ? "text-mint-600 dark:text-mint-400" : "text-slate-400"}
+                        />
                         {!isNavCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
                       </div>
                     </a>
@@ -208,7 +215,7 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
             </div>
           </div>
 
-          {/* Footer */}
+          {/* Sidebar Footer */}
           <div className="p-2.5 border-t border-slate-100 dark:border-slate-800 space-y-2">
             <a
               href="/tma/index.html"
@@ -254,7 +261,7 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
         </div>
       </aside>
 
-      {/* MAIN CONTENT */}
+      {/* MAIN CONTENT WITH DYNAMIC LEFT PADDING */}
       <div
         className={`min-h-screen flex flex-col transition-all duration-300 ease-in-out ${
           isNavCollapsed ? "md:pl-20" : "md:pl-64"
@@ -335,7 +342,3 @@ const Layout = ({ children, title, subtitle, onAddLeadClick }) => {
 };
 
 export default Layout;
-
-// NOTE: Sun/Moon imports needed — add to imports if not present
-import { Sun } from "lucide-react";
-import { Moon } from "lucide-react";
