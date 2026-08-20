@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
-const StatsCard = ({ title, value, change, changeType = "increase", icon: Icon, subtitle, progressPercent = 75 }) => {
+const StatsCard = React.memo(({ title, value, change, changeType = "increase", icon: Icon, subtitle, progressPercent = 75 }) => {
   return (
     <div className="mint-card p-4.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-gradient-to-br from-white via-white to-mint-50/30 dark:from-slate-900 dark:to-slate-900 transition-all hover:-translate-y-0.5">
       <div className="flex items-center justify-between">

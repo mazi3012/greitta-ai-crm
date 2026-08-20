@@ -14,7 +14,7 @@ import {
 import Button from "./Button";
 import EmptyState from "./EmptyState";
 
-const LeadTable = ({
+const LeadTable = React.memo(({
   leads = [],
   searchTerm,
   statusFilter,
@@ -30,15 +30,17 @@ const LeadTable = ({
   const [sortConfig, setSortConfig] = useState({ key: "date", direction: "desc" });
   const [selectedLeadIds, setSelectedLeadIds] = useState([]);
 
-  const sortedLeads = [...leads].sort((a, b) => {
-    if (!sortConfig.key) return 0;
-    let aVal = a[sortConfig.key] || "";
-    let bVal = b[sortConfig.key] || "";
+  const sortedLeads = React.useMemo(() => {
+    return [...leads].sort((a, b) => {
+      if (!sortConfig.key) return 0;
+      let aVal = a[sortConfig.key] || "";
+      let bVal = b[sortConfig.key] || "";
 
-    if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
-    if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
-    return 0;
-  });
+      if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [leads, sortConfig]);
 
   const requestSort = (key) => {
     let direction = "asc";

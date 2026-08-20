@@ -1,4 +1,41 @@
 import React from "react";
+
+const Button = React.memo(({
+  children,
+  onClick,
+  variant = "primary",
+  size = "md",
+  icon: Icon,
+  disabled = false,
+}) => {
+  const baseClasses = "font-bold rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+
+  const variantClasses = {
+    primary: "bg-mint-600 text-white hover:bg-mint-700 focus:ring-mint-500",
+    secondary: "bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 focus:ring-slate-500",
+    mint: "bg-mint-100 text-mint-800 hover:bg-mint-200 focus:ring-mint-500",
+  };
+
+  const sizeClasses = {
+    sm: "px-3 py-1.5 text-xs",
+    md: "px-4 py-2 text-sm",
+    lg: "px-6 py-3 text-base",
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]}`}
+    >
+      {Icon && <Icon size={14} className="mr-1.5" />}
+      {children}
+    </button>
+  );
+});
+
+export default Button;
+import React from "react";
 import { Loader2 } from "lucide-react";
 
 const Button = ({

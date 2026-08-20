@@ -16,7 +16,6 @@
     "next": "^16.3.1",
     "postcss": "^8.5.26",
     "recharts": "^3.10.1",
-    "tailwindcss": "^4.3.3",
-    "telegraf": "^4.16.3"
+    "tailwindcss": "^4.3.3"
   }
 }
