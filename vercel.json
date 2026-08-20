@@ -1,0 +1,8 @@
+{
+  "routes": [
+    { "src": "/api/check-lead", "dest": "/api/check-lead.js" },
+    { "src": "/api/claim-lead", "dest": "/api/claim-lead.js" },
+    { "src": "/bot", "dest": "/bot/index.js" },
+    { "src": "/(.*)", "dest": "/tma/index.html" }
+  ]
+}
